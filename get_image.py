@@ -3,34 +3,32 @@ import tensorflow as tf
 from PIL import Image
 import vgg19_truncate
 
+
 # define loss function for content
 def get_content_loss(vgg_image, vgg_content, layer=4):
-
     content_op_list = [vgg_content.conv1_2, vgg_content.conv2_2, vgg_content.conv3_2,
                        vgg_content.conv4_2, vgg_content.conv5_2]
 
     img_op_list = [vgg_image.conv1_2, vgg_image.conv2_2, vgg_image.conv3_2,
                    vgg_image.conv4_2, vgg_image.conv5_2]
 
-    content_loss = tf.nn.l2_loss(content_op_list[layer-1] - img_op_list[layer-1])
+    content_loss = tf.nn.l2_loss(content_op_list[layer - 1] - img_op_list[layer - 1])
 
     return content_loss
 
 
 # define loss function for style
 def get_style_loss(vgg_image, vgg_style, layers=5):
-
     style_op_list = [vgg_style.conv1_2, vgg_style.conv2_2, vgg_style.conv3_2, vgg_style.conv4_2, vgg_style.conv5_2]
     img_op_list = [vgg_image.conv1_2, vgg_image.conv2_2, vgg_image.conv3_2, vgg_image.conv4_2, vgg_image.conv5_2]
 
     total_style_loss = 0
 
     for layer_op_num in range(layers):
-
         # since there is only one style image, there is only one output; get the first output
         cur_style_op = style_op_list[layer_op_num][0]
 
-        #flatten the w and h dim of output of current layer; retain channel as a separate dim
+        # flatten the w and h dim of output of current layer; retain channel as a separate dim
         cur_style_op = tf.reshape(cur_style_op, shape=(-1, style_op_list[layer_op_num][3]))
 
         # do the same for output for desired image
@@ -39,13 +37,12 @@ def get_style_loss(vgg_image, vgg_style, layers=5):
 
         # get style loss from current layer
         cur_style_loss = tf.nn.l2_loss(tf.matmul(tf.transpose(cur_style_op), cur_style_op) -
-                                    tf.matmul(tf.transpose(cur_img_op), cur_img_op))
+                                       tf.matmul(tf.transpose(cur_img_op), cur_img_op))
 
         cur_style_loss /= tf.to_float(tf.multiply(tf.square(tf.shape(style_op_list[layer_op_num])[1]),
-                                  tf.square(tf.shape(style_op_list[layer_op_num])[3]))) * 2
+                                                  tf.square(tf.shape(style_op_list[layer_op_num])[3]))) * 2
 
         total_style_loss += cur_style_loss
-
 
     # scale the loss by the number of layers
     total_style_loss /= layers
@@ -55,7 +52,6 @@ def get_style_loss(vgg_image, vgg_style, layers=5):
 
 # define total loss function
 def get_total_loss(alpha, beta, content_loss, style_loss):
-
     total_loss = alpha * content_loss + beta * style_loss
 
     return total_loss
@@ -63,7 +59,6 @@ def get_total_loss(alpha, beta, content_loss, style_loss):
 
 # define gradient descent function
 def train_step(loss, learning_rate=5e-3, optimizer="adam"):
-
     with tf.name_scope('train_step'):
         if optimizer == "adam":
             print("in step")
@@ -72,6 +67,7 @@ def train_step(loss, learning_rate=5e-3, optimizer="adam"):
             step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
 
     return step
+
 
 def normalize_img(img_array):
     # normalize image to range of [0, 1]
@@ -82,9 +78,8 @@ def normalize_img(img_array):
 
 
 def get_image(image_path, content_image, style_image, vgg_params_path, iterations=10, alpha_beta_ratio=0.001):
-
     content_image1 = np.array(Image.open(image_path + content_image), dtype='float32')
-    style_image1  = np.array(Image.open(image_path + style_image), dtype='float32')
+    style_image1 = np.array(Image.open(image_path + style_image), dtype='float32')
 
     # normalize image to range of [0, 1]
     content_image1 = normalize_img(content_image1)
@@ -115,7 +110,6 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
     vgg_image.build(tf_image)
     vgg_content.build(tf_content_image)
     vgg_style.build(tf_style_image)
-
 
     # get loss
     content_loss = get_content_loss(vgg_image, vgg_content)

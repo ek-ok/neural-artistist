@@ -2,7 +2,7 @@ import tensorflow as tf
 import time
 import numpy as np
 
-class vgg19_truncate:
+class VGG19Truncate:
     def __init__(self, vgg19_params_path=None):
         # Load params of VGG19 trained on imagenet; the params are downloaded from
         # https://github.com/machrisaa/tensorflow-vgg as numpy compressed (npz) file
