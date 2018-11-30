@@ -25,15 +25,16 @@ def get_style_loss(vgg_image, vgg_style, layers=5):
     total_style_loss = 0
 
     for layer_op_num in range(layers):
+        
         # since there is only one style image, there is only one output; get the first output
         cur_style_op = style_op_list[layer_op_num][0]
 
         # flatten the w and h dim of output of current layer; retain channel as a separate dim
-        cur_style_op = tf.reshape(cur_style_op, shape=(-1, style_op_list[layer_op_num][3]))
+        cur_style_op = tf.reshape(cur_style_op, shape=(-1, style_op_list[layer_op_num].shape[3]))
 
         # do the same for output for desired image
         cur_img_op = img_op_list[layer_op_num][0]
-        cur_img_op = tf.reshape(cur_img_op, shape=(-1, img_op_list[layer_op_num][3]))
+        cur_img_op = tf.reshape(cur_img_op, shape=(-1, img_op_list[layer_op_num].shape[3]))
 
         # get style loss from current layer
         cur_style_loss = tf.nn.l2_loss(tf.matmul(tf.transpose(cur_style_op), cur_style_op) -
@@ -103,9 +104,9 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
     tf_style_image = tf.constant(value=style_image1, dtype=tf.float32)
 
     # create 3 truncated VGG models - one for image, one for content, one for style
-    vgg_image = vgg19_truncate.vgg19_truncate(vgg_params_path)
-    vgg_content = vgg19_truncate.vgg19_truncate(vgg_params_path)
-    vgg_style = vgg19_truncate.vgg19_truncate(vgg_params_path)
+    vgg_image = vgg19_truncate.VGG19Truncate(vgg_params_path)
+    vgg_content = vgg19_truncate.VGG19Truncate(vgg_params_path)
+    vgg_style = vgg19_truncate.VGG19Truncate(vgg_params_path)
 
     vgg_image.build(tf_image)
     vgg_content.build(tf_content_image)
