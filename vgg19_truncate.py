@@ -7,6 +7,7 @@ class vgg19_truncate:
         # Load params of VGG19 trained on imagenet; the params are downloaded from
         # https://github.com/machrisaa/tensorflow-vgg as numpy compressed (npz) file
         self.params_dict = np.load(vgg19_params_path, encoding='latin1').item()
+        self.vgg_mean = [103.939, 116.779, 123.68]
         print("VGG19 pre-trained params loaded")
 
     def build(self, input_image):
@@ -18,11 +19,14 @@ class vgg19_truncate:
         start_time = time.time()
         print("start building model")
 
+        input_image = input_image * 255.0
         print("input_image.shape", input_image.shape)
 
         # Convert RGB to BGR
         red, green, blue = tf.split(axis=3, num_or_size_splits=3, value=input_image)
-        bgr = tf.concat(axis=3, values=[blue, green, red])
+        bgr = tf.concat(axis=3, values=[blue - self.vgg_mean[0],
+                                        green - self.vgg_mean[1],
+                                        red - self.vgg_mean[2]])
 
         self.conv1_1 = self.conv_layer(bgr, "conv1_1")
         self.conv1_2 = self.conv_layer(self.conv1_1, "conv1_2")
