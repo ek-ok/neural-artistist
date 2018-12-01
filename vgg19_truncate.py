@@ -2,12 +2,19 @@ import tensorflow as tf
 import time
 import numpy as np
 
-class vgg19_truncate:
-    def __init__(self, vgg19_params_path=None):
+class VGG19Truncate:
+    def __init__(self, vgg19_params_path, input=False):
         # Load params of VGG19 trained on imagenet; the params are downloaded from
         # https://github.com/machrisaa/tensorflow-vgg as numpy compressed (npz) file
         self.params_dict = np.load(vgg19_params_path, encoding='latin1').item()
         self.vgg_mean = [103.939, 116.779, 123.68]
+
+        if input == True:
+            self.input = True
+        else:
+            self.input = False
+
+        self.first_time = True
         print("VGG19 pre-trained params loaded")
 
     def build(self, input_image):
@@ -16,17 +23,21 @@ class vgg19_truncate:
         input image is rgb image [batch, height, width, 3]
         """
 
+        if self.first_time:
+            input_image = input_image * 255.0
+            print("input_image.shape", input_image.shape)
+
+            # Convert RGB to BGR
+            red, green, blue = tf.split(axis=3, num_or_size_splits=3, value=input_image)
+            bgr = tf.concat(axis=3, values=[blue - self.vgg_mean[0],
+                                            green - self.vgg_mean[1],
+                                            red - self.vgg_mean[2]])
+
+        if self.input == True:
+            self.first_time = False
+
         start_time = time.time()
         print("start building model")
-
-        input_image = input_image * 255.0
-        print("input_image.shape", input_image.shape)
-
-        # Convert RGB to BGR
-        red, green, blue = tf.split(axis=3, num_or_size_splits=3, value=input_image)
-        bgr = tf.concat(axis=3, values=[blue - self.vgg_mean[0],
-                                        green - self.vgg_mean[1],
-                                        red - self.vgg_mean[2]])
 
         self.conv1_1 = self.conv_layer(bgr, "conv1_1")
         self.conv1_2 = self.conv_layer(self.conv1_1, "conv1_2")
