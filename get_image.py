@@ -40,7 +40,7 @@ def get_style_loss(vgg_image, vgg_style, layers=5):
         cur_style_loss = tf.nn.l2_loss(tf.matmul(tf.transpose(cur_style_op), cur_style_op) -
                                        tf.matmul(tf.transpose(cur_img_op), cur_img_op))
 
-        tf.cast(cur_style_loss, tf.float64)
+        # tf.cast(cur_style_loss, tf.float64)
 
         denom_coef = tf.multiply(tf.pow(tf.shape(style_op_list[layer_op_num])[1], 4),
                                  tf.square(tf.shape(style_op_list[layer_op_num])[3])) * 2
@@ -113,7 +113,7 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
     tf_style_image = tf.constant(value=style_image1, dtype=tf.float32)
 
     # create 3 truncated VGG models - one for image, one for content, one for style
-    vgg_image = vgg19_truncate.VGG19Truncate(vgg_params_path)
+    vgg_image = vgg19_truncate.VGG19Truncate(vgg_params_path, input=True)
     vgg_content = vgg19_truncate.VGG19Truncate(vgg_params_path)
     vgg_style = vgg19_truncate.VGG19Truncate(vgg_params_path)
 
@@ -158,6 +158,10 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
                                                                                 cur_style_loss,
                                                                                 cur_denom_coef,
                                                                                 one_style_loss))
+
+            vgg_image.build(tf_image)
+
+
 
         final_image = tf_image.eval()
 
