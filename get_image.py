@@ -14,6 +14,8 @@ def get_content_loss(vgg_image, vgg_content, layer=4):
 
     content_loss = tf.nn.l2_loss(content_op_list[layer - 1] - img_op_list[layer - 1])
 
+    # content_loss = tf.cast(content_loss, tf.float64)
+
     return content_loss
 
 
@@ -40,12 +42,17 @@ def get_style_loss(vgg_image, vgg_style, layers=5):
         cur_style_loss = tf.nn.l2_loss(tf.matmul(tf.transpose(cur_style_op), cur_style_op) -
                                        tf.matmul(tf.transpose(cur_img_op), cur_img_op))
 
-        # tf.cast(cur_style_loss, tf.float64)
+        cur_style_loss = tf.cast(cur_style_loss, tf.float32)
+
 
         denom_coef = tf.multiply(tf.pow(tf.shape(style_op_list[layer_op_num])[1], 4),
                                  tf.square(tf.shape(style_op_list[layer_op_num])[3])) * 2
 
-        tf.cast(denom_coef, tf.float32)
+        denom_coef = tf.cast(denom_coef, tf.float32)
+
+        # tf.to_float(denom_coef)
+        # print("cur_style_loss.dtype", cur_style_loss.dtype)
+        # print("denom_coef", denom_coef.dtype)
 
         cur_style_loss /= denom_coef
 
@@ -87,7 +94,7 @@ def normalize_img(img_array):
     return img_array
 
 
-def get_image(image_path, content_image, style_image, vgg_params_path, iterations=10, alpha_beta_ratio=0.001):
+def get_image(image_path, content_image, style_image, vgg_params_path, iterations=10, alpha_beta_ratio=0.001, file_index=0):
     content_image1 = np.array(Image.open(image_path + content_image), dtype='float32')
     style_image1 = np.array(Image.open(image_path + style_image), dtype='float32')
 
@@ -126,7 +133,7 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
 
     # style_loss = get_style_loss(vgg_image, vgg_style)
 
-    style_loss, denom_coef, this_style_loss = get_style_loss(vgg_image, vgg_style)
+    style_loss, denom_coef, last_style_layer_loss = get_style_loss(vgg_image, vgg_style)
 
     total_loss = get_total_loss(alpha, beta, content_loss, style_loss)
 
@@ -145,21 +152,26 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
             #                                                                 content_loss,
             #                                                                 style_loss])
 
-            _, cur_total_loss, cur_content_loss, cur_style_loss, cur_denom_coef, one_style_loss = sess.run([step,
-                                                                            total_loss,
-                                                                            content_loss,
-                                                                            style_loss,
-                                                                            denom_coef,
-                                                                            this_style_loss])
+            _, cur_total_loss, cur_content_loss, cur_style_loss, \
+            cur_denom_coef, last_style_layer_loss = sess.run([step,
+                                                              total_loss,
+                                                              content_loss,
+                                                              style_loss,
+                                                              denom_coef,
+                                                              last_style_layer_loss])
 
 
-            print("Total loss: {}, content loss: {}, style loss: {}, denom_coef: {}, one_style_loss: {}".format(cur_total_loss,
-                                                                                cur_content_loss,
-                                                                                cur_style_loss,
-                                                                                cur_denom_coef,
-                                                                                one_style_loss))
+            print("Total loss: {}, "
+                  "content loss: {}, "
+                  "style loss: {}, "
+                  "denom_coef: {}, "
+                  "last_style_layer_loss: {}".format(cur_total_loss,
+                                                     cur_content_loss,
+                                                     cur_style_loss,
+                                                     cur_denom_coef,
+                                                     last_style_layer_loss))
 
-            vgg_image.build(tf_image)
+            # vgg_image.build(tf_image)
 
 
 
@@ -172,5 +184,5 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
 
         final_image = np.stack((r, g, b), axis=-1)
 
-    np.save("./image.npy", final_image)
+    np.save("./image_{}.npy".format(file_index), final_image)
     return final_image
