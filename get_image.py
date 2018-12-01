@@ -25,7 +25,7 @@ def get_style_loss(vgg_image, vgg_style, layers=5):
     total_style_loss = 0
 
     for layer_op_num in range(layers):
-        
+
         # since there is only one style image, there is only one output; get the first output
         cur_style_op = style_op_list[layer_op_num][0]
 
@@ -40,15 +40,24 @@ def get_style_loss(vgg_image, vgg_style, layers=5):
         cur_style_loss = tf.nn.l2_loss(tf.matmul(tf.transpose(cur_style_op), cur_style_op) -
                                        tf.matmul(tf.transpose(cur_img_op), cur_img_op))
 
-        cur_style_loss /= tf.to_float(tf.multiply(tf.square(tf.shape(style_op_list[layer_op_num])[1]),
-                                                  tf.square(tf.shape(style_op_list[layer_op_num])[3]))) * 2
+        tf.cast(cur_style_loss, tf.float64)
+
+        denom_coef = tf.multiply(tf.pow(tf.shape(style_op_list[layer_op_num])[1], 4),
+                                 tf.square(tf.shape(style_op_list[layer_op_num])[3])) * 2
+
+        tf.cast(denom_coef, tf.float32)
+
+        cur_style_loss /= denom_coef
 
         total_style_loss += cur_style_loss
 
     # scale the loss by the number of layers
     total_style_loss /= layers
 
-    return total_style_loss
+    # return total_style_loss
+
+    return total_style_loss, denom_coef, cur_style_loss
+
 
 
 # define total loss function
@@ -114,7 +123,11 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
 
     # get loss
     content_loss = get_content_loss(vgg_image, vgg_content)
-    style_loss = get_style_loss(vgg_image, vgg_style)
+
+    # style_loss = get_style_loss(vgg_image, vgg_style)
+
+    style_loss, denom_coef, this_style_loss = get_style_loss(vgg_image, vgg_style)
+
     total_loss = get_total_loss(alpha, beta, content_loss, style_loss)
 
     # perform gradient descent on image
@@ -127,14 +140,24 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
 
         for i in range(iterations):
             print(i)
-            _, cur_total_loss, cur_content_loss, cur_style_loss = sess.run([step,
+            # _, cur_total_loss, cur_content_loss, cur_style_loss = sess.run([step,
+            #                                                                 total_loss,
+            #                                                                 content_loss,
+            #                                                                 style_loss])
+
+            _, cur_total_loss, cur_content_loss, cur_style_loss, cur_denom_coef, one_style_loss = sess.run([step,
                                                                             total_loss,
                                                                             content_loss,
-                                                                            style_loss])
+                                                                            style_loss,
+                                                                            denom_coef,
+                                                                            this_style_loss])
 
-            print("Total loss = {}, content loss = {}, style loss = {}:".format(cur_total_loss,
+
+            print("Total loss: {}, content loss: {}, style loss: {}, denom_coef: {}, one_style_loss: {}".format(cur_total_loss,
                                                                                 cur_content_loss,
-                                                                                cur_style_loss))
+                                                                                cur_style_loss,
+                                                                                cur_denom_coef,
+                                                                                one_style_loss))
 
         final_image = tf_image.eval()
 
