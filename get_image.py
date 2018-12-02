@@ -14,6 +14,8 @@ def get_content_loss(vgg_image, vgg_content, layer=4):
 
     content_loss = tf.nn.l2_loss(content_op_list[layer - 1] - img_op_list[layer - 1])
 
+    content_loss = tf.cast(content_loss, tf.float64)
+
     return content_loss
 
 
@@ -30,45 +32,73 @@ def get_style_loss(vgg_image, vgg_style, layers=5):
         cur_style_op = style_op_list[layer_op_num][0]
 
         # flatten the w and h dim of output of current layer; retain channel as a separate dim
-        cur_style_op = tf.reshape(cur_style_op, shape=(-1, style_op_list[layer_op_num].shape[3]))
+        # cur_style_op = tf.reshape(cur_style_op, shape=(-1, style_op_list[layer_op_num].shape[3]))
+
+        M_style = tf.multiply(tf.shape(style_op_list[layer_op_num])[1], tf.shape(style_op_list[layer_op_num])[2])
+
+        # print("M_style type", M_style.dtype)
+
+        N = style_op_list[layer_op_num].shape[3]
+
+        print("N type", type(N))
+
+        cur_style_op = tf.reshape(cur_style_op, (M_style, N))
 
         # do the same for output for desired image
         cur_img_op = img_op_list[layer_op_num][0]
-        cur_img_op = tf.reshape(cur_img_op, shape=(-1, img_op_list[layer_op_num].shape[3]))
+        M_img = tf.multiply(tf.shape(img_op_list[layer_op_num])[1], tf.shape(img_op_list[layer_op_num])[2])
+        cur_img_op = tf.reshape(cur_img_op, (M_img, N))
+        # cur_img_op = tf.reshape(cur_img_op, shape=(-1, img_op_list[layer_op_num].shape[3]))
 
         # get style loss from current layer
         cur_style_loss = tf.nn.l2_loss(tf.matmul(tf.transpose(cur_style_op), cur_style_op) -
                                        tf.matmul(tf.transpose(cur_img_op), cur_img_op))
 
-        # tf.cast(cur_style_loss, tf.float64)
+        cur_style_loss = tf.cast(cur_style_loss, tf.float64)
 
-        denom_coef = tf.multiply(tf.pow(tf.shape(style_op_list[layer_op_num])[1], 4),
-                                 tf.square(tf.shape(style_op_list[layer_op_num])[3])) * 2
+        M_img = tf.cast(M_img, tf.int64)
+        N = tf.cast(N, tf.int64)
 
-        tf.cast(denom_coef, tf.float32)
+        print("N type", type(N))
 
-        cur_style_loss /= denom_coef
 
-        total_style_loss += cur_style_loss
+        denom_coef = tf.multiply(tf.square(N), tf.square(M_img)) * 2
+
+        denom_coef = tf.cast(denom_coef, tf.float64)
+
+        # denom_coef *= 1000
+
+        print("inside style loss fn")
+        # tf.to_float(denom_coef)
+        # print("cur_style_loss.dtype", cur_style_loss.dtype)
+        # print("denom_coef", denom_coef.dtype)
+
+
+        cur_style_loss_af = cur_style_loss / denom_coef
+
+        total_style_loss += cur_style_loss_af
 
     # scale the loss by the number of layers
     total_style_loss /= layers
 
     # return total_style_loss
 
-    return total_style_loss, denom_coef, cur_style_loss
+    # return total_style_loss, denom_coef, cur_style_loss_af, cur_style_loss
+    return total_style_loss
 
 
 
 # define total loss function
-def get_total_loss(alpha, beta, content_loss, style_loss):
+def get_total_loss(alpha, beta, content_loss=0, style_loss=0):
     total_loss = alpha * content_loss + beta * style_loss
+    # total_loss = style_loss
+    # total_loss = content_loss
 
     return total_loss
 
 
 # define gradient descent function
-def train_step(loss, learning_rate=5e-3, optimizer="adam"):
+def train_step(loss, learning_rate=10, optimizer="adam"):
     with tf.name_scope('train_step'):
         if optimizer == "adam":
             print("in step")
@@ -81,13 +111,14 @@ def train_step(loss, learning_rate=5e-3, optimizer="adam"):
 
 def normalize_img(img_array):
     # normalize image to range of [0, 1]
-    img_array = (img_array - np.min(img_array)) / (np.max(img_array) - np.min(img_array))
+
+    # img_array = (img_array - np.min(img_array)) / (np.max(img_array) - np.min(img_array))
     img_array = img_array.reshape((1,) + img_array.shape)
 
     return img_array
 
 
-def get_image(image_path, content_image, style_image, vgg_params_path, iterations=10, alpha_beta_ratio=0.001):
+def get_image(image_path, content_image, style_image, vgg_params_path, iterations=10, alpha_beta_ratio=0.001, file_index=0):
     content_image1 = np.array(Image.open(image_path + content_image), dtype='float32')
     style_image1 = np.array(Image.open(image_path + style_image), dtype='float32')
 
@@ -100,12 +131,16 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
     image_num_pixels = np.array(image_shape)
     image_num_pixels = image_num_pixels[0] * image_num_pixels[1] * image_num_pixels[2] * image_num_pixels[3]
     # ranf returns values  in [0, 1) drawing from a uniform distribution
-    image = np.random.ranf(image_num_pixels)
+    image = np.random.ranf(image_num_pixels) * 255
     image = image.reshape(image_shape)
 
     # alpha + beta = 1
     beta = 1 / (1 + alpha_beta_ratio)
     alpha = alpha_beta_ratio * beta
+
+    beta = tf.cast(beta, tf.float64)
+    alpha = tf.cast(alpha, tf.float64)
+
     print("beta = {}, alpha = {}".format(beta, alpha))
 
     tf_image = tf.Variable(initial_value=image, dtype=tf.float32)
@@ -124,11 +159,14 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
     # get loss
     content_loss = get_content_loss(vgg_image, vgg_content)
 
-    # style_loss = get_style_loss(vgg_image, vgg_style)
+    style_loss = get_style_loss(vgg_image, vgg_style)
 
-    style_loss, denom_coef, this_style_loss = get_style_loss(vgg_image, vgg_style)
+    # style_loss, denom_coef, last_style_layer_loss, last_style_layer_loss_bf = get_style_loss(vgg_image, vgg_style)
 
     total_loss = get_total_loss(alpha, beta, content_loss, style_loss)
+    # total_loss = get_total_loss(alpha, beta, content_loss)
+    # total_loss = get_total_loss(alpha, beta, content_loss, style_loss)
+    # total_loss = get_total_loss(alpha, beta, style_loss=style_loss)
 
     # perform gradient descent on image
     step = train_step(total_loss)
@@ -140,37 +178,53 @@ def get_image(image_path, content_image, style_image, vgg_params_path, iteration
 
         for i in range(iterations):
             print(i)
-            # _, cur_total_loss, cur_content_loss, cur_style_loss = sess.run([step,
-            #                                                                 total_loss,
-            #                                                                 content_loss,
-            #                                                                 style_loss])
-
-            _, cur_total_loss, cur_content_loss, cur_style_loss, cur_denom_coef, one_style_loss = sess.run([step,
+            _, cur_total_loss, cur_content_loss, cur_style_loss = sess.run([step,
                                                                             total_loss,
                                                                             content_loss,
-                                                                            style_loss,
-                                                                            denom_coef,
-                                                                            this_style_loss])
+                                                                            style_loss])
+
+            # _, cur_total_loss, cur_style_loss, cur_denom_coef, last_style_loss, last_style_loss_bf = sess.run([step,
+            #                                                  total_loss,
+            #                                                  style_loss,
+            #                                                  denom_coef,
+            #                                                  last_style_layer_loss,
+            #                                                  last_style_layer_loss_bf
+            #                                                  ])
+
+            # _, cur_total_loss, cur_content_loss, cur_style_loss, \
+            # cur_denom_coef, last_style_layer_loss = sess.run([step,
+            #                                                   total_loss,
+            #                                                   content_loss,
+            #                                                   style_loss,
+            #                                                   denom_coef,
+            #                                                   last_style_layer_loss])
 
 
-            print("Total loss: {}, content loss: {}, style loss: {}, denom_coef: {}, one_style_loss: {}".format(cur_total_loss,
-                                                                                cur_content_loss,
-                                                                                cur_style_loss,
-                                                                                cur_denom_coef,
-                                                                                one_style_loss))
+            # print("Total loss: {}, "
+            #       "content loss: {}, "
+            #       "style loss: {}, "
+            #       "denom_coef: {}, "
+            #       "last_style_layer_loss: {}".format(cur_total_loss,
+            #                                          cur_content_loss,
+            #                                          cur_style_loss,
+            #                                          cur_denom_coef,
+            #                                          last_style_layer_loss))
 
-            vgg_image.build(tf_image)
+            print("Total loss: {}, content loss: {}, style loss: {}".format(cur_total_loss, cur_content_loss, cur_style_loss))
+            # print("Total loss: {}, style loss: {}, denom coef: {}, last_style_layer_loss: {} last_style_layer_loss bf: {}"
+            #       .format(cur_total_loss, cur_style_loss, cur_denom_coef, last_style_loss, last_style_loss_bf))
 
+            # vgg_image.build(tf_image)
 
 
         final_image = tf_image.eval()
 
-        print("final_image.shape", final_image.shape)
-        b = final_image[:, :, :, 0]
-        g = final_image[:, :, :, 1]
-        r = final_image[:, :, :, 2]
+        # print("final_image.shape", final_image.shape)
+        # b = final_image[:, :, :, 0]
+        # g = final_image[:, :, :, 1]
+        # r = final_image[:, :, :, 2]
+        #
+        # final_image = np.stack((r, g, b), axis=-1)
 
-        final_image = np.stack((r, g, b), axis=-1)
-
-    np.save("./image.npy", final_image)
+    np.save("./image_{}.npy".format(file_index), final_image)
     return final_image
