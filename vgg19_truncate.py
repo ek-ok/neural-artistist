@@ -24,7 +24,8 @@ class VGG19Truncate:
         """
 
         if self.first_time:
-            input_image = input_image * 255.0
+            # In VGG, the input image has pixel values between 0 to 1
+            #input_image = input_image * 255.0
             print("input_image.shape", input_image.shape)
 
             # Convert RGB to BGR
