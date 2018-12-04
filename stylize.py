@@ -39,7 +39,6 @@ def calculate_content_loss(vgg_image, vgg_content):
     """define loss function for content"""
     layer = 'conv4_2'
     loss = tf.nn.l2_loss(vgg_image[layer] - vgg_content[layer])
-    # loss = tf.cast(content_loss, tf.float64)
     return loss
 
 
@@ -73,7 +72,6 @@ def apply(content_file, style_file, learning_rate, iterations, alpha, beta, nois
     # Load images and construct a noisy image
     content_image = load_image(content_file)
     style_image = load_image(style_file)
-#     image = np.random.uniform(low=-127.5, high=127.5, size=content_image.shape)
     image = generate_noisey_image(content_image, noise_ratio=noise_ratio)
 
     tf_content_image = tf.constant(content_image, dtype=tf.float32)
