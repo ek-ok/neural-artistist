@@ -105,4 +105,3 @@ def apply(content_file, style_file, learning_rate, iterations, alpha, beta, nois
 
                 output_image = tf_image.eval()
                 save_image('output.jpeg', output_image)
-
