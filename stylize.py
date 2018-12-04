@@ -86,7 +86,6 @@ def apply(content_file, style_file, learning_rate, iterations, alpha, beta, nois
     content_loss = calculate_content_loss(vgg_image, vgg_content)
     style_loss = calculate_style_loss(vgg_image, vgg_style)
 
-    alpha = 0
     total_loss = alpha*content_loss + beta*style_loss
     step = tf.train.AdamOptimizer(learning_rate).minimize(total_loss)
 
