@@ -18,7 +18,7 @@ def load_image(filename):
     return bgr
 
 
-def generate_noisey_image(content, noise_ratio=0.1):
+def generate_noisey_image(content, noise_ratio):
     noise = np.random.uniform(low=-20, high=20, size=content.shape)
     image = noise*noise_ratio + content*(1 - noise_ratio)
     return image
@@ -66,7 +66,7 @@ def calculate_style_loss(vgg_image, vgg_style):
     return total_loss
 
 
-def apply(content_file, style_file, learning_rate, iterations, alpha, beta, noise_ratio=0.6):
+def apply(content_file, style_file, learning_rate, iterations, alpha, beta, noise_ratio):
     vgg_npy_file = 'vgg19.npy'
 
     # Load images and construct a noisy image
@@ -99,7 +99,7 @@ def apply(content_file, style_file, learning_rate, iterations, alpha, beta, nois
                     [step, total_loss, content_loss, style_loss])
 
             if i % 100 == 0:
-                print("Iteration: {}, Total loss: {}, content loss: {}, style loss: {}".format(
+                print("Iteration: {}, total loss: {}, content loss: {}, style loss: {}".format(
                     i, cur_total_loss, cur_content_loss, cur_style_loss))
 
                 output_image = tf_image.eval()
