@@ -8,17 +8,7 @@ def build(vgg19_npy_path, rgb):
     Load params of VGG19 trained on imagenet; the params are downloaded from
     https://github.com/machrisaa/tensorflow-vgg as numpy compressed (npz) file
     """
-    # params = np.load(vgg19_npy_path, encoding='latin1').item()
-
-    # Load params from Keras
-    from tensorflow.python.keras.applications.vgg19 import VGG19
-    names = iter(['conv1_1', 'conv1_2',
-                  'conv2_1', 'conv2_2',
-                  'conv3_1', 'conv3_2', 'conv3_3', 'conv3_4',
-                  'conv4_1', 'conv4_2', 'conv4_3', 'conv4_4',
-                  'conv5_1', 'conv5_2', 'conv5_3', 'conv5_4'])
-    keras = VGG19(include_top=False)
-    params = {next(names): layer.get_weights() for layer in keras.layers[1:] if 'conv' in layer.name}
+    params = np.load(vgg19_npy_path, encoding='latin1').item()
 
     def _avg_pool(input, name):
         return tf.nn.avg_pool(input, ksize=[1, 2, 2, 1],
