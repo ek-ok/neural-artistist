@@ -18,7 +18,7 @@ def load_image(filename):
     return bgr
 
 
-def generate_noisey_image(content, noise_ratio):
+def generate_noisy_image(content, noise_ratio):
     noise = np.random.uniform(low=-20, high=20, size=content.shape)
     image = noise*noise_ratio + content*(1 - noise_ratio)
     return image
@@ -72,7 +72,7 @@ def apply(content_file, style_file, learning_rate, iterations, alpha, beta, nois
     # Load images and construct a noisy image
     content_image = load_image(content_file)
     style_image = load_image(style_file)
-    image = generate_noisey_image(content_image, noise_ratio=noise_ratio)
+    image = generate_noisy_image(content_image, noise_ratio=noise_ratio)
 
     tf_content_image = tf.constant(content_image, dtype=tf.float32)
     tf_style_image = tf.constant(style_image, dtype=tf.float32)
