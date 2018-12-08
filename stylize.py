@@ -11,11 +11,11 @@ VGG_MEAN = [123.68, 116.779, 103.939]
 
 def load_image(filename, new_width):
     """
-    Load an image and conver from rgb to bgr. 
+    Load an image and conver from rgb to bgr.
     Resize image if new_width is set
     """
     rgb = Image.open(os.path.join('images', filename))
-    
+
     # Resize image if new_width is set
     if new_width:
         original_size = rgb.size
@@ -24,7 +24,7 @@ def load_image(filename, new_width):
 
         msg = '{} was resized from {} to {}'
         print(msg.format(filename, original_size, rgb.size))
-        
+
     rgb = np.float32(rgb) - np.array(VGG_MEAN).reshape((1, 1, 3))
 
     bgr = rgb[:, :, ::-1]  # rgb to bgr
