@@ -25,7 +25,7 @@ Result | Tubingen |  Starry Night by Vincent van Gogh
 
 Result | Tubingen |  Starry Night by Vincent van Gogh
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/seated_nude.jpg" alt="drawing" height="100"/>
+<img src="images/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/seated_nude.jpg" alt="drawing" height="50"/>
 
 Result | Tubingen |  Starry Night by Vincent van Gogh
 :-----:|:--------:|:--------:
