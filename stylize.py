@@ -3,15 +3,15 @@ import os
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-import vgg19
 
+import vgg19
 
 VGG_MEAN = [123.68, 116.779, 103.939]
 
 
 def load_image(filename, new_width):
     """
-    Load an image and conver from rgb to bgr.
+    Load an image and convert from rgb to bgr.
     Resize image if new_width is set
     """
     rgb = Image.open(os.path.join('images', filename))
@@ -55,7 +55,14 @@ def save_image(filename, bgr):
 def calculate_content_loss(vgg_image, vgg_content):
     """define loss function for content"""
     layer = 'conv4_2'
-    loss = tf.nn.l2_loss(vgg_image[layer] - vgg_content[layer])
+    image_layer = vgg_image[layer]
+    content_layer = vgg_content[layer]
+
+    n = tf.shape(content_layer)[3]
+    m = tf.shape(content_layer)[1] * tf.shape(content_layer)[2]
+    n, m = map(lambda x: tf.cast(x, tf.float32), [n, m])
+
+    loss = tf.nn.l2_loss(image_layer - content_layer) / (2 * n**2 * m**2)
     return loss
 
 
@@ -67,26 +74,28 @@ def calculate_style_loss(vgg_image, vgg_style):
 
         conv = tf.reshape(conv, (m, n))
         gram = tf.matmul(tf.transpose(conv), conv)
-        return gram
+        gram, n, m = map(lambda x: tf.cast(x, tf.float32), [gram, n, m])
+
+        return gram, n, m
 
     layers = ['conv1_1', 'conv2_1', 'conv3_1', 'conv4_1', 'conv5_1']
     ws = [1/5]*5
     total_loss = 0
 
     for layer, w in zip(layers, ws):
-        gram_style = _gram_matrix(vgg_style[layer])
-        gram_image = _gram_matrix(vgg_image[layer])
+        gram_style, n, m = _gram_matrix(vgg_style[layer])
+        gram_image, _, _ = _gram_matrix(vgg_image[layer])
 
-        loss = tf.nn.l2_loss(gram_style - gram_image)
+        loss = tf.reduce_sum((gram_style - gram_image)**2) / (4 * n**2 * m**2)
         total_loss += loss*w
 
     return total_loss
 
 
-def apply(content_file, style_file, learning_rate,
-          iterations, alpha, beta, noise_ratio, new_width=None):
+def apply(content_file, style_file, learning_rate, iterations, alpha, beta,
+          noise_ratio, new_width=None, pool_method='ave', pool_stride=2):
     """Apply neural style transfer to content image"""
-    vgg_npy_file = 'vgg19.npy'
+    vgg_file = 'vgg19.npy'
 
     # Create output_file as output_content_style.jpg
     without_ext = lambda f: os.path.splitext(f)[0]  # noqa E731
@@ -100,14 +109,14 @@ def apply(content_file, style_file, learning_rate,
 
     # Create tensorflow objects
     # Content and style images as constant and output as variable
-    tf_content_image = tf.constant(content_image, dtype=tf.float32)
-    tf_style_image = tf.constant(style_image, dtype=tf.float32)
+    tf_content = tf.constant(content_image, dtype=tf.float32)
+    tf_style = tf.constant(style_image, dtype=tf.float32)
     tf_image = tf.Variable(image, dtype=tf.float32)
 
     # Create 3 VGG models - for content, style, and output images
-    vgg_content = vgg19.build(vgg_npy_file, tf_content_image)
-    vgg_style = vgg19.build(vgg_npy_file, tf_style_image)
-    vgg_image = vgg19.build(vgg_npy_file, tf_image)
+    vgg_content = vgg19.build(vgg_file, tf_content, pool_method, pool_stride)
+    vgg_style = vgg19.build(vgg_file, tf_style, pool_method, pool_stride)
+    vgg_image = vgg19.build(vgg_file, tf_image, pool_method, pool_stride)
 
     # Calculate content, style and total loss
     content_loss = calculate_content_loss(vgg_image, vgg_content)
