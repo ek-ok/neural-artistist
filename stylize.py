@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 import vgg19
+import time
 
 VGG_MEAN = [123.68, 116.779, 103.939]
 
@@ -162,12 +163,17 @@ def apply(content_file, style_file, config):
     if optimizer == "adam":
         step = tf.train.AdamOptimizer(learning_rate).minimize(total_loss)
     else:
-        step = tf.train.AdamOptimizer(learning_rate).minimize(total_loss)
+        1
+        # step = tf.contrib.opt.ScipyOptimizerInterface(total_loss,
+        #                                               method='L-BFGS-B',
+        #                                               options={'maxiter': 30}).minimize(sess)
 
     init = tf.global_variables_initializer()
 
     with tf.Session() as sess:
         sess.run(init)
+
+        t_start = time.time()
 
         for i in range(iters):
             _, cur_total_loss, cur_content_loss, cur_style_loss = sess.run(
@@ -189,9 +195,14 @@ def apply(content_file, style_file, config):
                 output_image = tf_image.eval()
                 save_image('output_{}.jpeg'.format(i), output_image, output_clip_hard)
 
+        t_end = time.time()
+        run_time = t_end - t_start
+        run_time /= iters
+
         output_image = tf_image.eval()
         save_image('output_{}.jpeg'.format(i), output_image, output_clip_hard)
         np.save('output/total_losses.npy', np.array(total_losses))
         np.save('output/content_losses.npy', np.array(content_losses))
         np.save('output/style_losses.npy', np.array(style_losses))
-        return output_image, total_losses, content_losses, style_losses
+        np.save('output/ave_run_time.npy', np.array(run_time))
+        return output_image, total_losses, content_losses, style_losses, run_time
