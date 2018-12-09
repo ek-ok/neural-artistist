@@ -14,7 +14,7 @@ Result | Our Team |  Starry Night by Vincent van Gogh
 
 Result | Tubingen |  Starry Night by Vincent van Gogh
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/output_starry_night.jpg" alt="drawing" width="300"/>
+<img src="images/output_tubingen_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
 
 # How to run
 You will need to download the pre-trained VGG19 model from [here](https://github.com/machrisaa/tensorflow-vgg) and place it to the root directory of `neural-artistist`.
