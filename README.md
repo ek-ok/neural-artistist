@@ -4,13 +4,13 @@
 
 # Results
 
-##### Us standing in front of Columbia University with the Starry Night by Vincent van Gogh
+Us standing in front of Columbia University with the Starry Night by Vincent van Gogh
 
 Result | Our Team | Starry Night
 :-----:|:--------:|:--------:
 <img src="images/output_csjl_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/csjl.jpeg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
 
-##### Other results replicated the paper
+Other results replicated the paper
 
 Result | Tubingen | Shipwreck
 :-----:|:--------:|:--------:
