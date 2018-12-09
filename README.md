@@ -4,12 +4,13 @@
 
 # Results
 
-Us standing in front of Columbia University with the Starry Night style
-
+### Us standing in front of Columbia University with the Starry Night style
 
 Result | Our Team | Starry Night
 :-----:|:--------:|:--------:
 <img src="images/output_csjl_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/csjl.jpeg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
+
+### Other results replicated the paper
 
 Result | Tubingen | Shipwreck
 :-----:|:--------:|:--------:
