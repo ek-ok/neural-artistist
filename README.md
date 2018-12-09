@@ -5,11 +5,12 @@
 # Results
 
 Us standing in front of Columbia University with the Starry Night style
-![output](images/output_csjl_starry_night.jpg)
 
-![output](images/starry_night.jpg)
+![output](images/output_csjl_starry_night.jpg =250x)
 
-![output](images/csjl.jpg)
+![output](images/starry_night.jpg =250x)
+
+![output](images/csjl.jpeg =250x)
 
 
 # How to run
