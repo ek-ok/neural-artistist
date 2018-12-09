@@ -2,13 +2,13 @@ import numpy as np
 import tensorflow as tf
 
 
-def build(vgg19_npy_path, rgb, pool_method='ave', pool_stride=2):
+def build(rgb, pool_method, pool_stride):
     """
     input image is rgb image [batch, height, width, 3]
     Load params of VGG19 trained on imagenet; the params are downloaded from
     https://github.com/machrisaa/tensorflow-vgg as numpy compressed (npz) file
     """
-    params = np.load(vgg19_npy_path, encoding='latin1').item()
+    params = np.load('vgg19.npy', encoding='latin1').item()
 
     def _pool(input_, name, method, stride):
         if method == 'avg':
@@ -23,6 +23,8 @@ def build(vgg19_npy_path, rgb, pool_method='ave', pool_stride=2):
                                   strides=[1, stride, stride, 1],
                                   padding='SAME',
                                   name=name)
+        else:
+            raise ValueError('Invalid pool_method')
 
     def _conv_layer(input_, name):
         kernel = tf.constant(params[name][0], name='kernel')

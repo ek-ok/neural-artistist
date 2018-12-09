@@ -93,9 +93,8 @@ def calculate_style_loss(vgg_image, vgg_style):
 
 
 def apply(content_file, style_file, learning_rate, iterations, alpha, beta,
-          noise_ratio, new_width=None, pool_method='ave', pool_stride=2):
+          noise_ratio, new_width=None, pool_method='avg', pool_stride=2):
     """Apply neural style transfer to content image"""
-    vgg_file = 'vgg19.npy'
 
     # Create output_file as output_content_style.jpg
     without_ext = lambda f: os.path.splitext(f)[0]  # noqa E731
@@ -109,14 +108,14 @@ def apply(content_file, style_file, learning_rate, iterations, alpha, beta,
 
     # Create tensorflow objects
     # Content and style images as constant and output as variable
-    tf_content = tf.constant(content_image, dtype=tf.float32)
-    tf_style = tf.constant(style_image, dtype=tf.float32)
+    tf_content_image = tf.constant(content_image, dtype=tf.float32)
+    tf_style_image = tf.constant(style_image, dtype=tf.float32)
     tf_image = tf.Variable(image, dtype=tf.float32)
 
     # Create 3 VGG models - for content, style, and output images
-    vgg_content = vgg19.build(vgg_file, tf_content, pool_method, pool_stride)
-    vgg_style = vgg19.build(vgg_file, tf_style, pool_method, pool_stride)
-    vgg_image = vgg19.build(vgg_file, tf_image, pool_method, pool_stride)
+    vgg_content = vgg19.build(tf_content_image, pool_method, pool_stride)
+    vgg_style = vgg19.build(tf_style_image, pool_method, pool_stride)
+    vgg_image = vgg19.build(tf_image, pool_method, pool_stride)
 
     # Calculate content, style and total loss
     content_loss = calculate_content_loss(vgg_image, vgg_content)
