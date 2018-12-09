@@ -11,10 +11,21 @@ Result | Our Team |  Starry Night by Vincent van Gogh
 :-----:|:--------:|:--------:
 <img src="images/output_csjl_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/csjl.jpeg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
 
+Result | Tubingen |  Starry Night by Vincent van Gogh
+:-----:|:--------:|:--------:
+<img src="images/output_tubingen_shipwreck.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/shipwreck.jpg" alt="drawing" width="300"/>
 
 Result | Tubingen |  Starry Night by Vincent van Gogh
 :-----:|:--------:|:--------:
 <img src="images/output_tubingen_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
+
+Result | Tubingen |  Starry Night by Vincent van Gogh
+:-----:|:--------:|:--------:
+<img src="images/output_tubingen_scream.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/scream.jpg" alt="drawing" width="300"/>
+
+Result | Tubingen |  Starry Night by Vincent van Gogh
+:-----:|:--------:|:--------:
+<img src="images/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/seated_nude.jpg" alt="drawing" width="300"/>
 
 Result | Tubingen |  Starry Night by Vincent van Gogh
 :-----:|:--------:|:--------:
