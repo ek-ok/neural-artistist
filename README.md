@@ -22,11 +22,11 @@ Result | Tubingen | Starry Night
 
 Result | Tubingen | Scream
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_scream.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/scream.jpg" alt="drawing" height="220"/>
+<img src="images/output_tubingen_scream.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/scream.jpg" alt="drawing" height="250"/>
 
 Result | Tubingen | Seated Nude
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/seated_nude.jpg" alt="drawing" height="220"/>
+<img src="images/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/seated_nude.jpg" alt="drawing" height="250"/>
 
 Result | Tubingen | Somposition
 :-----:|:--------:|:--------:
