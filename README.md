@@ -34,3 +34,13 @@ Result | Tubingen | Somposition
 
 # How to run
 You will need to download the pre-trained VGG19 model from [here](https://github.com/machrisaa/tensorflow-vgg) and place it to the root directory of `neural-artistist`.
+
+Then apply slyle to a content image by
+
+    import stylize
+
+    content = 'tubingen.jpg'
+    style = 'starry_night.jpg'
+
+    stylize.apply(content, style, learning_rate=2.0, iterations=1001,
+                  alpha=1, beta=1000, noise_ratio=0.6, new_width=300)
