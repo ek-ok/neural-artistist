@@ -1,0 +1,12 @@
+VGG19 params:
+https://github.com/machrisaa/tensorflow-vgg
+
+Pictures:
+Shanghai night
+https://www.paulreiffer.com/2015/10/bye-bye-shanghai-leaving-home-after-3-years-in-china/
+
+New York night
+https://www.youtube.com/watch?v=ivgfEESeBHs
+
+Singapore night
+http://www.worldsultimateexperiences.com/singapore-grand-prix/#jp-carousel-10643
