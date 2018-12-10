@@ -148,4 +148,11 @@ def apply(content_file, style_file, learning_rate, iters, alpha, beta,
     run_time = t_end - t_start
     run_time /= iters
 
+    # output_image = tf_image.eval()
+    # save_image('output_{}.jpeg'.format(i), output_image, output_clip_hard)
+    # np.save('output/total_losses.npy', np.array(total_losses))
+    # np.save('output/content_losses.npy', np.array(content_losses))
+    # np.save('output/style_losses.npy', np.array(style_losses))
+    # np.save('output/ave_run_time.npy', np.array(run_time))
+
     return image
