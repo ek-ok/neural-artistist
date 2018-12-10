@@ -28,7 +28,7 @@ Result | Tubingen | Seated Nude
 :-----:|:--------:|:--------:
 <img src="inputs/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/seated_nude.jpg" alt="drawing" height="230"/>
 
-Result | Tubingen | Somposition
+Result | Tubingen | Composition VII
 :-----:|:--------:|:--------:
 <img src="inputs/output_tubingen_somposition.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/somposition.jpg" alt="drawing" width="300"/>
 
