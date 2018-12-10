@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 
 
-def build(rgb, pool_method, pool_stride):
+def build(shape, pool_method, pool_stride):
     """
     input image is rgb image [batch, height, width, 3]
     Load params of VGG19 trained on imagenet; the params are downloaded from
@@ -36,7 +36,9 @@ def build(rgb, pool_method, pool_stride):
         return relu_output
 
     graph = {}
-    graph['conv1_1'] = _conv_layer(rgb, 'conv1_1')
+    shape = np.zeros((1, shape[0], shape[1], 3))
+    graph['input'] = tf.Variable(shape, dtype=tf.float32)
+    graph['conv1_1'] = _conv_layer(graph['input'], 'conv1_1')
     graph['conv1_2'] = _conv_layer(graph['conv1_1'], 'conv1_2')
     graph['pool1'] = _pool(graph['conv1_2'], 'pool1', pool_method, pool_stride)
 
