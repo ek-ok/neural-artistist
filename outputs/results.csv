@@ -1,2 +1,5 @@
 filename,i,total_loss,content_loss,style_loss,learning_rate,iters,alpha,beta,noise_ratio,optimizer,new_width,pool_method,pool_stride,last_style_loss_layer_w,style_num_layers,content_layer_num
-tubingen_scream_w100_301_lr2.0_a1_b100_nr0.6_lbfgs_avg_ps2_sw0.2_sn5_cn4_tm_rt0.5499538408957446.jpg,301,31777044.0,0.36233657598495483,317770.4375,2.0,301,1,100,0.6,lbfgs,100,avg,2,0.2,5,4
+tubingen_scream_w100_i100_lr2.0_a1_b100_nr0.6_adam_avg_ps2_sw0.2_sn5_cn4_tm_rt.jpg,100,700576576.0,0.2843272089958191,7005766.0,2.0,302,1,100,0.6,adam,100,avg,2,0.2,5,4
+tubingen_scream_w100_i200_lr2.0_a1_b100_nr0.6_adam_avg_ps2_sw0.2_sn5_cn4_tm_rt.jpg,200,405467488.0,0.30840376019477844,4054674.75,2.0,302,1,100,0.6,adam,100,avg,2,0.2,5,4
+tubingen_scream_w100_i300_lr2.0_a1_b100_nr0.6_adam_avg_ps2_sw0.2_sn5_cn4_tm_rt.jpg,300,303670944.0,0.3189348578453064,3036709.5,2.0,302,1,100,0.6,adam,100,avg,2,0.2,5,4
+tubingen_scream_w100_i302_lr2.0_a1_b100_nr0.6_adam_avg_ps2_sw0.2_sn5_cn4_tm_rt0.2166534567510845.jpg,302,303670944.0,0.3189348578453064,3036709.5,2.0,302,1,100,0.6,adam,100,avg,2,0.2,5,4

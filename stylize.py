@@ -121,15 +121,17 @@ def apply(content_file, style_file, learning_rate, iters, alpha, beta,
         results.to_csv(results_file, mode='a', header=header, index=False)
 
     # Create output_file as output_content_style.jpg
-    output_file = '{content}_{style}_w{w}_{i}_lr{lr}_a{a}_b{b}_nr{nr}_{opt}_{pm}_ps{ps}_sw{sw}_sn{sn}_cn{cn}_tm_rt{rt}.jpg' # noqa E501
     without_ext = lambda f: os.path.splitext(f)[0]  # noqa E731
-    output_file = output_file.format(
-            content=without_ext(content_file),
-            style=without_ext(style_file),
-            w=new_width, i='{i}', lr=learning_rate, a=alpha, b=beta,
-            nr=noise_ratio, opt=optimizer, pm=pool_method, ps=pool_stride,
-            sw=style_loss_layers_w[-1],
-            sn=style_num_layers, cn=content_layer_num, rt='{rt}')
+    output_basefile = ('{content}_{style}_w{w}_i{i}_lr{lr}_a{a}_'
+                       'b{b}_nr{nr}_{opt}_{pm}_ps{ps}_sw{sw}_'
+                       'sn{sn}_cn{cn}_tm_rt{rt}.jpg').format(
+                            content=without_ext(content_file),
+                            style=without_ext(style_file),
+                            w=new_width, i='{i}', lr=learning_rate, a=alpha,
+                            b=beta, nr=noise_ratio, opt=optimizer,
+                            pm=pool_method, ps=pool_stride,
+                            sw=style_loss_layers_w[-1], sn=style_num_layers,
+                            cn=content_layer_num, rt='{rt}')
 
     # Load images and construct a noisy image
     content_image = read_image(content_file, new_width)
@@ -169,9 +171,11 @@ def apply(content_file, style_file, learning_rate, iters, alpha, beta,
             if i % 100 == 0:
                 tf_outputs = sess.run([vgg['input'], total_loss,
                                        content_loss, style_loss])
+
+                # Save interim image and outputs
                 output_image = tf_outputs[0]
-                output_file = output_file.format(i=i, rt='')
-                write_image('interim', output_file, tf_outputs[0])
+                output_file = output_basefile.format(i=i, rt='')
+                write_image('interim', output_file, output_image)
                 _save_results(output_file, i, *tf_outputs[1:])
 
                 # Edit just to print
@@ -191,8 +195,10 @@ def apply(content_file, style_file, learning_rate, iters, alpha, beta,
     # All done, save the final image and results
     t_end = time.time()
     run_time = (t_end - t_start) / iters
-    output_file = output_file.format(i=iters, rt=run_time)
+    output_file = output_basefile.format(i=iters, rt=run_time)
     _save_results(output_file, iters, *tf_outputs[1:])
     image = write_image('final', output_file, output_image)
+
+    print(output_file)
 
     return image
