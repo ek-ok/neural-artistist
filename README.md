@@ -8,29 +8,29 @@ Our team standing in front of Columbia University with the Starry Night by Vince
 
 Result | Our Team | Starry Night
 :-----:|:--------:|:--------:
-<img src="images/output_csjl_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/csjl.jpeg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
+<img src="inputs/output_csjl_starry_night.jpg" alt="drawing" width="300"/> | <img src="inputs/csjl.jpeg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
 
 Other results replicating the paper
 
 Result | Tubingen | Shipwreck
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_shipwreck.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/shipwreck.jpg" alt="drawing" width="300"/>
+<img src="inputs/output_tubingen_shipwreck.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/shipwreck.jpg" alt="drawing" width="300"/>
 
 Result | Tubingen | Starry Night
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
+<img src="inputs/output_tubingen_starry_night.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
 
 Result | Tubingen | Scream
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_scream.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/scream.jpg" alt="drawing" height="230"/>
+<img src="inputs/output_tubingen_scream.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/scream.jpg" alt="drawing" height="230"/>
 
 Result | Tubingen | Seated Nude
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/seated_nude.jpg" alt="drawing" height="230"/>
+<img src="inputs/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/seated_nude.jpg" alt="drawing" height="230"/>
 
 Result | Tubingen | Somposition
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_somposition.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/somposition.jpg" alt="drawing" width="300"/>
+<img src="inputs/output_tubingen_somposition.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/somposition.jpg" alt="drawing" width="300"/>
 
 # How to run
 You will need to download the pre-trained VGG19 model from [here](https://github.com/machrisaa/tensorflow-vgg) and place it to the root directory of `neural-artistist`.
