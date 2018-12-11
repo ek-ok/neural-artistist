@@ -50,7 +50,7 @@ def write_image(dirname, filename, bgr):
 
 
 def write_image_csv(dirname, image, total_loss, content_loss, style_loss,
-                    content_file, style_file, params, i='', run_time=0):
+                    content_file, style_file, params, i, run_time):
     # Create an image file name
     without_ext = lambda f: os.path.splitext(f)[0]  # noqa E731
     content = without_ext(content_file)
@@ -74,7 +74,7 @@ def write_image_csv(dirname, image, total_loss, content_loss, style_loss,
 
     # Save results to a csv
     csv_filename = 'outputs/results.csv'
-    params.pop('iters')
+
     params['run_time'] = run_time
     params['total_loss'] = total_loss
     params['content_loss'] = content_loss
@@ -175,7 +175,6 @@ def apply(content_file, style_file, **kwargs):
 
     # Feed data to vgg and optimize
     t_start = time.time()
-    msg = 'Iteration:{}, total loss:{}, content loss:{}, style loss:{}'
 
     if kwargs['optimizer'] == "adam":
         step = tf.train.AdamOptimizer(kwargs['learning_rate']) \
@@ -190,12 +189,8 @@ def apply(content_file, style_file, **kwargs):
                                        content_loss, style_loss])
 
                 # Save interim image and outputs
-                write_image_csv('interim', *tf_outputs,
-                                content_file, style_file)
-
-                # Edit just to print
-                tf_outputs[0] = i
-                print(msg.format(*tf_outputs))
+                write_image_csv('interim', *tf_outputs, content_file, 
+                                style_file, kwargs, i=i, run_time=0)
 
     elif kwargs['optimizer'] == 'lbfgs':
         train_step = tf.contrib.opt.ScipyOptimizerInterface(
