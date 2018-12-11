@@ -49,6 +49,54 @@ def write_image(dirname, filename, bgr):
     return image
 
 
+def write_image_csv(dirname, image, total_loss, content_loss, style_loss,
+                    content_file, style_file, params, i='', run_time=0):
+    # Create an image file name
+    without_ext = lambda f: os.path.splitext(f)[0]  # noqa E731
+    content = without_ext(content_file)
+    style = without_ext(style_file)
+    sw = params['style_loss_layers_w'][-1]  # noqa F841
+    image_filename = (f"{content}_{style}_"
+                      f"w{params['new_width']}_"
+                      f"i{i}_"
+                      f"lr{params['learning_rate']}_"
+                      f"a{params['alpha']}_"
+                      f"b{params['beta']}_"
+                      f"nr{params['noise_ratio']}_"
+                      f"{params['optimizer']}_"
+                      f"{params['pool_method']}_"
+                      f"ps{params['pool_stride']}_"
+                      f"sw{sw}_"
+                      f"sn{params['style_num_layers']}_"
+                      f"cn{params['content_layer_num']}_"
+                      f"rt{run_time:.1f}.jpg")
+    print(image_filename)
+
+    # Save results to a csv
+    csv_filename = 'outputs/results.csv'
+    params.pop('iters')
+    params['run_time'] = run_time
+    params['total_loss'] = total_loss
+    params['content_loss'] = content_loss
+    params['style_loss'] = style_loss
+    params['i'] = i
+    params['last_style_loss_layers_w'] = sw
+
+    cols = ['filename', 'i', 'run_time', 'total_loss', 'content_loss',
+            'style_loss', 'learning_rate', 'iters', 'alpha', 'beta',
+            'noise_ratio', 'optimizer', 'new_width', 'pool_method',
+            'pool_stride', 'last_style_loss_layer_w', 'style_num_layers',
+            'content_layer_num']
+
+    header = not os.path.isfile(csv_filename)
+    results = pd.DataFrame([params], columns=cols)
+    results.to_csv(csv_filename, mode='a', header=header, index=False)
+
+    # Write image
+    img = write_image(dirname, image_filename, image)
+    return img
+
+
 def generate_noisey_image(content, noise_ratio):
     """Add some noise to the content image"""
     noise = np.random.uniform(low=-20, high=20, size=content.shape)
@@ -96,50 +144,17 @@ def calculate_style_loss(vgg_image, vgg_style, ws, num_layers):
     return total_loss
 
 
-def apply(content_file, style_file, learning_rate, iters, alpha, beta,
-          noise_ratio, optimizer='adam', new_width=None,
-          pool_method='avg', pool_stride=2,
-          style_loss_layers_w=(0.2, 0.2, 0.2, 0.2, 0.2), style_num_layers=5,
-          content_layer_num=4):
+def apply(content_file, style_file, **kwargs):
     """Apply neural style transfer to content image"""
 
-    def _save_results(filename, i, total_loss, content_loss, style_loss):
-        results_file = 'outputs/results.csv'
-        vals = [filename, i, total_loss, content_loss, style_loss,
-                learning_rate, iters, alpha, beta, noise_ratio, optimizer,
-                new_width, pool_method, pool_stride, style_loss_layers_w[-1],
-                style_num_layers, content_layer_num]
-
-        cols = ['filename', 'i', 'total_loss', 'content_loss', 'style_loss',
-                'learning_rate', 'iters', 'alpha', 'beta',
-                'noise_ratio', 'optimizer', 'new_width', 'pool_method',
-                'pool_stride', 'last_style_loss_layer_w', 'style_num_layers',
-                'content_layer_num']
-
-        results = pd.DataFrame([vals], columns=cols)
-        header = not os.path.isfile(results_file)
-        results.to_csv(results_file, mode='a', header=header, index=False)
-
-    # Create output_file as output_content_style.jpg
-    without_ext = lambda f: os.path.splitext(f)[0]  # noqa E731
-    output_basefile = ('{content}_{style}_w{w}_i{i}_lr{lr}_a{a}_'
-                       'b{b}_nr{nr}_{opt}_{pm}_ps{ps}_sw{sw}_'
-                       'sn{sn}_cn{cn}_tm_rt{rt}.jpg').format(
-                            content=without_ext(content_file),
-                            style=without_ext(style_file),
-                            w=new_width, i='{i}', lr=learning_rate, a=alpha,
-                            b=beta, nr=noise_ratio, opt=optimizer,
-                            pm=pool_method, ps=pool_stride,
-                            sw=style_loss_layers_w[-1], sn=style_num_layers,
-                            cn=content_layer_num, rt='{rt}')
-
     # Load images and construct a noisy image
-    content_image = read_image(content_file, new_width)
-    style_image = read_image(style_file, new_width)
-    image = generate_noisey_image(content_image, noise_ratio=noise_ratio)
+    content_image = read_image(content_file, kwargs['new_width'])
+    style_image = read_image(style_file, kwargs['new_width'])
+    image = generate_noisey_image(content_image,
+                                  noise_ratio=kwargs['noise_ratio'])
 
     shape = content_image.shape[1:-1]
-    vgg = vgg19.build(shape, pool_method, pool_stride)
+    vgg = vgg19.build(shape, kwargs['pool_method'], kwargs['pool_stride'])
 
     sess = tf.Session()
     sess.run(tf.global_variables_initializer())
@@ -147,58 +162,55 @@ def apply(content_file, style_file, learning_rate, iters, alpha, beta,
     # Calculate content loss
     sess.run([vgg['input'].assign(content_image)])
     content_loss = calculate_content_loss(sess.run(vgg), vgg,
-                                          content_layer_num)
+                                          kwargs['content_layer_num'])
 
     # Calculate style loss
     sess.run([vgg['input'].assign(style_image)])
     style_loss = calculate_style_loss(sess.run(vgg), vgg,
-                                      style_loss_layers_w, style_num_layers)
+                                      kwargs['style_loss_layers_w'],
+                                      kwargs['style_num_layers'])
 
     # Calculate total loss
-    total_loss = alpha*content_loss + beta*style_loss
+    total_loss = kwargs['alpha']*content_loss + kwargs['beta']*style_loss
 
     # Feed data to vgg and optimize
     t_start = time.time()
     msg = 'Iteration:{}, total loss:{}, content loss:{}, style loss:{}'
 
-    if optimizer == "adam":
-        step = tf.train.AdamOptimizer(learning_rate).minimize(total_loss)
+    if kwargs['optimizer'] == "adam":
+        step = tf.train.AdamOptimizer(kwargs['learning_rate']) \
+                       .minimize(total_loss)
         sess.run(tf.global_variables_initializer())
         sess.run(vgg['input'].assign(image))
 
-        for i in range(iters):
+        for i in range(kwargs['iters']):
             sess.run(step)
             if i % 100 == 0:
                 tf_outputs = sess.run([vgg['input'], total_loss,
                                        content_loss, style_loss])
 
                 # Save interim image and outputs
-                output_image = tf_outputs[0]
-                output_file = output_basefile.format(i=i, rt='')
-                write_image('interim', output_file, output_image)
-                _save_results(output_file, i, *tf_outputs[1:])
+                write_image_csv('interim', *tf_outputs,
+                                content_file, style_file)
 
                 # Edit just to print
                 tf_outputs[0] = i
                 print(msg.format(*tf_outputs))
 
-    elif optimizer == 'lbfgs':
+    elif kwargs['optimizer'] == 'lbfgs':
         train_step = tf.contrib.opt.ScipyOptimizerInterface(
-                total_loss, method='L-BFGS-B', options={'maxiter': iters})
+                total_loss, method='L-BFGS-B',
+                options={'maxiter': kwargs['iters']})
         sess.run(tf.global_variables_initializer())
         sess.run(vgg['input'].assign(image))
         train_step.minimize(sess)
         tf_outputs = sess.run([vgg['input'], total_loss,
                               content_loss, style_loss])
-        output_image = tf_outputs[0]
 
     # All done, save the final image and results
     t_end = time.time()
-    run_time = (t_end - t_start) / iters
-    output_file = output_basefile.format(i=iters, rt=run_time)
-    _save_results(output_file, iters, *tf_outputs[1:])
-    image = write_image('final', output_file, output_image)
-
-    print(output_file)
+    run_time = (t_end - t_start) / kwargs['iters']
+    image = write_image_csv('final', *tf_outputs, content_file, style_file,
+                            kwargs, i=kwargs['iters'], run_time=run_time)
 
     return image
