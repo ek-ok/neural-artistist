@@ -51,36 +51,38 @@ def write_image(dirname, filename, bgr):
 
 def write_image_csv(dirname, image, total_loss, content_loss, style_loss,
                     content_file, style_file, params, i, run_time):
+    """Save image and parameters and running stats to a CSV"""
     # Create an image file name
     without_ext = lambda f: os.path.splitext(f)[0]  # noqa E731
     content = without_ext(content_file)
     style = without_ext(style_file)
-    sw = params['style_loss_layers_w'][-1]  # noqa F841
+    sllw = params['style_loss_layers_w'][-1]  # noqa F841
     image_filename = (f"{content}_{style}_"
                       f"w{params['new_width']}_"
                       f"i{i}_"
                       f"lr{params['learning_rate']}_"
-                      f"a{params['alpha']}_"
-                      f"b{params['beta']}_"
+                      f"alpha{params['alpha']}_"
+                      f"beta{params['beta']}_"
                       f"nr{params['noise_ratio']}_"
                       f"{params['optimizer']}_"
                       f"{params['pool_method']}_"
                       f"ps{params['pool_stride']}_"
-                      f"sw{sw}_"
-                      f"sn{params['style_num_layers']}_"
-                      f"cn{params['content_layer_num']}_"
-                      f"rt{run_time:.1f}.jpg")
+                      f"sllw{sllw}_"
+                      f"snl{params['style_num_layers']}_"
+                      f"cln{params['content_layer_num']}_"
+                      f"time{run_time:.1f}.jpg")
     print(image_filename)
 
     # Save results to a csv
     csv_filename = 'outputs/results.csv'
 
+    params['filename'] = image_filename
     params['run_time'] = run_time
     params['total_loss'] = total_loss
     params['content_loss'] = content_loss
     params['style_loss'] = style_loss
     params['i'] = i
-    params['last_style_loss_layers_w'] = sw
+    params['last_style_loss_layers_w'] = sllw
 
     cols = ['filename', 'i', 'run_time', 'total_loss', 'content_loss',
             'style_loss', 'learning_rate', 'iters', 'alpha', 'beta',
@@ -88,6 +90,7 @@ def write_image_csv(dirname, image, total_loss, content_loss, style_loss,
             'pool_stride', 'last_style_loss_layer_w', 'style_num_layers',
             'content_layer_num']
 
+    # If CSV exists, append. Otherwise create a new file
     header = not os.path.isfile(csv_filename)
     results = pd.DataFrame([params], columns=cols)
     results.to_csv(csv_filename, mode='a', header=header, index=False)
@@ -189,7 +192,7 @@ def apply(content_file, style_file, **kwargs):
                                        content_loss, style_loss])
 
                 # Save interim image and outputs
-                write_image_csv('interim', *tf_outputs, content_file, 
+                write_image_csv('interim', *tf_outputs, content_file,
                                 style_file, kwargs, i=i, run_time=0)
 
     elif kwargs['optimizer'] == 'lbfgs':
