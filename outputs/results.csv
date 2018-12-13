@@ -1,5 +1,7 @@
-filename,i,total_loss,content_loss,style_loss,learning_rate,iters,alpha,beta,noise_ratio,optimizer,new_width,pool_method,pool_stride,last_style_loss_layer_w,style_num_layers,content_layer_num
-tubingen_scream_w100_i100_lr2.0_a1_b100_nr0.6_adam_avg_ps2_sw0.2_sn5_cn4_tm_rt.jpg,100,700576576.0,0.2843272089958191,7005766.0,2.0,302,1,100,0.6,adam,100,avg,2,0.2,5,4
-tubingen_scream_w100_i200_lr2.0_a1_b100_nr0.6_adam_avg_ps2_sw0.2_sn5_cn4_tm_rt.jpg,200,405467488.0,0.30840376019477844,4054674.75,2.0,302,1,100,0.6,adam,100,avg,2,0.2,5,4
-tubingen_scream_w100_i300_lr2.0_a1_b100_nr0.6_adam_avg_ps2_sw0.2_sn5_cn4_tm_rt.jpg,300,303670944.0,0.3189348578453064,3036709.5,2.0,302,1,100,0.6,adam,100,avg,2,0.2,5,4
-tubingen_scream_w100_i302_lr2.0_a1_b100_nr0.6_adam_avg_ps2_sw0.2_sn5_cn4_tm_rt0.2166534567510845.jpg,302,303670944.0,0.3189348578453064,3036709.5,2.0,302,1,100,0.6,adam,100,avg,2,0.2,5,4
+filename,i,run_time,total_loss,content_loss,style_loss,learning_rate,iters,alpha,beta,noise_ratio,optimizer,new_width,pool_method,pool_stride,last_style_loss_layer_w,style_num_layers,content_layer_num
+,40,0.33049616813659666,1886967424.0,0.03058837354183197,1886967.375,2.0,40,1,1000,0.1,lbfgs,300,avg,2,,5,4
+,300,0.1355941049257914,361824704.0,0.062220245599746704,361824.71875,1.0,300,1,1000,0.6,lbfgs,300,avg,2,,5,4
+,50,0.21348631381988525,56209900.0,0.031460292637348175,562099.0,1.0,50,1,100,0.1,lbfgs,300,avg,2,,5,4
+,100,0.20289685487747192,1649122.0,0.029321204870939255,329824.40625,1.0,100,1,5,0.1,lbfgs,300,avg,2,,5,4
+,50,0.26436394691467285,82732504.0,0.024054860696196556,827325.0625,1.0,50,1,100,0.6,lbfgs,300,avg,2,,5,4
+,70,0.27730984006609233,5197282.0,0.04538017138838768,519728.21875,1.0,70,1,10,0.6,lbfgs,300,avg,2,,5,4
