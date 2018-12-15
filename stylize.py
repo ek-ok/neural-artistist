@@ -9,8 +9,10 @@ from PIL import Image
 import vgg19
 
 
-VGG_MEAN = [123.68, 116.779, 103.939]
+# Turn off Tensorflow debugging info
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
+VGG_MEAN = [123.68, 116.779, 103.939]
 
 def read_image(filename, new_width):
     """
@@ -24,9 +26,6 @@ def read_image(filename, new_width):
         original_size = rgb.size
         new_height = int(new_width * 0.75)  # hardcode the size to be 4x6
         rgb = rgb.resize((new_width, new_height), Image.ANTIALIAS)
-
-        msg = '{} was resized from {} to {}'
-        print(msg.format(filename, original_size, rgb.size))
 
     rgb = np.float32(rgb) - np.array(VGG_MEAN).reshape((1, 1, 3))
 
