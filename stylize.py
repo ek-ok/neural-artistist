@@ -211,4 +211,5 @@ def apply(content_file, style_file, **kwargs):
     image = write_image_csv('final', *tf_outputs, content_file, style_file,
                             kwargs, i=kwargs['iters'], run_time=run_time)
 
+    sess.close()
     return image
