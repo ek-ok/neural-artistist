@@ -40,12 +40,12 @@ Other results replicating the paper
 
 Result | Content | Style
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_shipwreck.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/shipwreck.jpg" alt="drawing" width="300"/>
+<img src="inputs/output_tubingen_shipwreck.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/shipwreck.jpg" alt="drawing" width="300"/>
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
+<img src="inputs/output_tubingen_starry_night.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_scream.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/scream.jpg" alt="drawing" height="230"/>
+<img src="inputs/output_tubingen_scream.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/scream.jpg" alt="drawing" height="230"/>
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/seated_nude.jpg" alt="drawing" height="230"/>
+<img src="inputs/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/seated_nude.jpg" alt="drawing" height="230"/>
 :-----:|:--------:|:--------:
-<img src="images/output_tubingen_somposition.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/somposition.jpg" alt="drawing" width="300"/>
+<img src="inputs/output_tubingen_somposition.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/somposition.jpg" alt="drawing" width="300"/>
