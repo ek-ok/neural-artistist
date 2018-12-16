@@ -3,7 +3,7 @@
 `neural-artistist` is an implementation of [A Neural Algorithm of Artistic Style](https://arxiv.org/pdf/1508.06576.pdf) published by Leon A. Gatys in 2015. Following year, he published [Image Style Transfer Using Convolutional Neural Networks](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf) in 2016 IEEE Conference on Computer Vision and Pattern Recognition.
 # How to run
 
-You will need to download the pre-trained VGG19 model, [vgg19.npy on Google Drive](https://drive.google.com/open?id=1rzTQRcquj63vCXT5xkue8sVcXjhf22t5) and place it to the root directory of `neural-artistist`.
+You will need to download the pre-trained VGG19 model, [vgg19.npy](https://drive.google.com/open?id=1dvv0XiR1nmJVO06EdqLcesJoNYqIcPx7) on Google Driv eand place it to the root directory of `neural-artistist`.
 
 Then apply style to a content image by
 
