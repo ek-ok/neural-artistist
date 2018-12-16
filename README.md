@@ -34,7 +34,7 @@ Our team in front of Low Memorial Library, Columbia University, with style trans
 
 Result | Our Team | Starry Night
 :-----:|:--------:|:--------:
-<img src="images/output_csjl_starry_night.jpg" alt="drawing" width="300"/> | <img src="outputs/csjl.jpeg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
+<img src="images/output_csjl_starry_night.jpg" alt="drawing" width="300"/> | <img src="inputs/csjl.jpeg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
 
 Other results replicating the paper
 
