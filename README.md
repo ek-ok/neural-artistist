@@ -9,7 +9,7 @@ _^This paper was followed by [Image Style Transfer Using Convolutional Neural Ne
 
 # How to run
 
-You will need to download the pre-trained VGG19 model, [vgg19.npy](https://drive.google.com/open?id=1dvv0XiR1nmJVO06EdqLcesJoNYqIcPx7) on Google Driv eand place it to the root directory of `neural-artistist`.
+You will need to download the pre-trained VGG19 model, [vgg19.npy](https://drive.google.com/open?id=1dvv0XiR1nmJVO06EdqLcesJoNYqIcPx7) on Google Drive and place it to the root directory of `neural-artistist`.
 
 Then apply style to a content image by
 
