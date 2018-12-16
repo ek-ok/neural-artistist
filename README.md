@@ -1,10 +1,10 @@
 # neural-artistist
-Contributors: Ikkei Itoku, Sing Pou Lee, Sean Xu, all from Columbia University, School of Engineering
+Contributors: E.K. Itoku, Sing Pou Lee, Sean Xu, all from Columbia University, School of Engineering
 
-For our Deep Learning class final project, we have independently reproduced the results of [A Neural Algorithm of Artistic Style](https://arxiv.org/pdf/1508.06576.pdf) by Leon A. Gatys, Alexander S. Ecker and Matthias Bethge in 2015^. 
+For our Deep Learning class final project, we have independently reproduced the results of [A Neural Algorithm of Artistic Style](https://arxiv.org/pdf/1508.06576.pdf) by Leon A. Gatys, Alexander S. Ecker and Matthias Bethge in 2015^.
 We also conducted a series of experimentations to obtain deeper insights into deep learning mechanisms for style and content transfer in images.
 
-_^This paper was followed by [Image Style Transfer Using Convolutional Neural Networks](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf) in 2016 IEEE Conference on Computer Vision and Pattern Recognition, by the same authors._
+This paper was followed by [Image Style Transfer Using Convolutional Neural Networks](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf) in 2016 IEEE Conference on Computer Vision and Pattern Recognition, by the same authors._
 
 
 # How to run
@@ -27,4 +27,25 @@ Output images will be exported to [outputs](outputs)
 
 # Our results
 
-You can see our final results in [stylize_image.ipynb](stylize_image.ipynb).
+You can see the code generating these results below in [stylize_image.ipynb](stylize_image.ipynb).
+
+
+Our team in front of Low Memorial Library, Columbia University, with style transfer from The Starry Night
+
+Result | Our Team | Starry Night
+:-----:|:--------:|:--------:
+<img src="images/output_csjl_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/csjl.jpeg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
+
+Other results replicating the paper
+
+Result | Content | Style
+:-----:|:--------:|:--------:
+<img src="images/output_tubingen_shipwreck.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/shipwreck.jpg" alt="drawing" width="300"/>
+:-----:|:--------:|:--------:
+<img src="images/output_tubingen_starry_night.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/starry_night.jpg" alt="drawing" width="300"/>
+:-----:|:--------:|:--------:
+<img src="images/output_tubingen_scream.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/scream.jpg" alt="drawing" height="230"/>
+:-----:|:--------:|:--------:
+<img src="images/output_tubingen_seated_nude.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/seated_nude.jpg" alt="drawing" height="230"/>
+:-----:|:--------:|:--------:
+<img src="images/output_tubingen_somposition.jpg" alt="drawing" width="300"/> | <img src="images/tubingen.jpg" alt="drawing" width="300"/> | <img src="images/somposition.jpg" alt="drawing" width="300"/>
