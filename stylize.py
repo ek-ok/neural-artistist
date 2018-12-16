@@ -39,6 +39,7 @@ def write_image(dirname, filename, bgr):
     bgr = bgr[0]
 
     rgb = bgr[:, :, ::-1]  # bgr to rgb
+    rgb = rgb.copy()
     rgb += np.array(VGG_MEAN).reshape((1, 1, 3))
     rgb = np.clip(rgb, 0, 255).astype('uint8')
 
