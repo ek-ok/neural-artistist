@@ -10,7 +10,7 @@ The above paper was followed by [Image Style Transfer Using Convolutional Neural
 
 - `inputs`: It contains the style and content images used to reproduce all the results of the original pager. It is also used for our additional experiments.
 
-- `vgg19.npy`: You would need to download the VGG19 pre-trained weights, [vgg19.npy] (https://drive.google.com/open?id=1dvv0XiR1nmJVO06EdqLcesJoNYqIcPx7) from Google Drive and place `vgg19.npy` in the root directory of this project.
+- `vgg19.npy`: You would need to download the VGG19 pre-trained weights, [vgg19.npy](https://drive.google.com/open?id=1dvv0XiR1nmJVO06EdqLcesJoNYqIcPx7) from Google Drive and place `vgg19.npy` in the root directory of this project.
 
 # Code
 
