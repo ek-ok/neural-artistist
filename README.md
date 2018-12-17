@@ -38,24 +38,3 @@ Then apply style to a content image by running the following in the Jupyter Note
                   style_num_layers=5, content_layer_num=4, optimizer='lbfgs')
 
 Output images will be exported to [outputs](outputs)
-
-# Our results
-
-You can see the code generating these results below in [stylize_image.ipynb](stylize_image.ipynb).
-
-
-Our team in front of Low Memorial Library, Columbia University, with style transfer from The Starry Night
-
-Result | Our Team | Starry Night
-:-----:|:--------:|:--------:
-<img src="outputs/final/csjl_starry_night_w300_i70_lr1.0_alpha1_beta10_nr0.6_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/csjl.jpeg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
-
-Other results replicating the paper
-
-Result | Content | Style
-:-----:|:--------:|:--------:
-<img src="outputs/final/tubingen_shipwreck_w300_i100_lr1.0_alpha1_beta5_nr0.1_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/shipwreck.jpg" alt="drawing" width="300"/>
-<img src="outputs/final/tubingen_starry_night_w300_i50_lr1.0_alpha1_beta100_nr0.1_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
-<img src="outputs/final/tubingen_scream_w300_i40_lr2.0_alpha1_beta1000_nr0.1_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/scream.jpg" alt="drawing" height="230"/>
-<img src="outputs/final/tubingen_seated_nude_w300_i200_lr1.0_alpha1_beta1000_nr0.7_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/seated_nude.jpg" alt="drawing" height="230"/>
-<img src="outputs/final/tubingen_composition7_w300_i300_lr1.0_alpha1_beta1000_nr0.6_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/composition7.jpg" alt="drawing" width="300"/>
