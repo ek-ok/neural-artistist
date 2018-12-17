@@ -6,12 +6,26 @@ We also conducted a series of experimentations to obtain deeper insights into de
 
 The above paper was followed by [Image Style Transfer Using Convolutional Neural Networks](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf) in 2016 IEEE Conference on Computer Vision and Pattern Recognition, by the same authors.
 
+# Data
+
+- `inputs`: It contains the style and content images used to reproduce all the results of the original pager. It is also used for our additional experiments.
+
+- `vgg19.npy`: You would need to download the VGG19 pre-trained weights, [vgg19.npy] from Google Drive (https://drive.google.com/open?id=1dvv0XiR1nmJVO06EdqLcesJoNYqIcPx7) and place `vgg19.npy` in the root directory of this project.
+
+# Code
+
+- `vgg19.py`: creates vgg19 network
+
+- `stylize.py`: performs style transfer; saves the output
+
+- `stylize_image.ipynb`: notebook to present the result
+
 
 # How to run
 
-You will need to download the pre-trained VGG19 model, [vgg19.npy](https://drive.google.com/open?id=1dvv0XiR1nmJVO06EdqLcesJoNYqIcPx7) on Google Drive and place it in the root directory of `neural-artistist`.
+As mentioned above, please make sure to download the pre-trained VGG19 model, [vgg19.npy](https://drive.google.com/open?id=1dvv0XiR1nmJVO06EdqLcesJoNYqIcPx7) on Google Drive and place it in the root directory of this project.
 
-Then apply style to a content image by
+Then apply style to a content image by running the following in the Jupyter Notebook
 
     import stylize
 
