@@ -1,3 +1,5 @@
+# Neural Artistist
+
 This project reproduced the results of [A Neural Algorithm of Artistic Style](https://arxiv.org/pdf/1508.06576.pdf) by Leon A. Gatys, Alexander S. Ecker and Matthias Bethge in 2015.
 Also conducted a series of experimentations to obtain deeper insights into deep learning mechanisms for style and content transfer in images.
 
