@@ -7,13 +7,13 @@ The above paper was followed by [Image Style Transfer Using Convolutional Neural
 
 # Results
 
-Result | Our Team | Starry Night
+Output | Our Team | Starry Night
 :-----:|:--------:|:--------:
 <img src="outputs/final/csjl_starry_night_w300_i70_lr1.0_alpha1_beta10_nr0.6_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/csjl.jpeg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
 
 Other results replicating the paper
 
-Result | Content | Style
+Output | Input Content | Input Style
 :-----:|:--------:|:--------:
 <img src="outputs/final/tubingen_shipwreck_w300_i100_lr1.0_alpha1_beta5_nr0.1_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/shipwreck.jpg" alt="drawing" width="300"/>
 <img src="outputs/final/tubingen_starry_night_w300_i100_lr1.0_alpha100_beta1_nr0.1_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time1.1.jpg" alt="drawing" width="300"/> | <img src="inputs/tubingen.jpg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
