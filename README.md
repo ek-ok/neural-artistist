@@ -10,6 +10,7 @@ The above paper was followed by [Image Style Transfer Using Convolutional Neural
 Output | Input Content | Input Style
 :-----:|:--------:|:--------:
 <img src="outputs/hawaii_composition7_w600_i2000_lr1.0_alpha1_beta2_nr0.1_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time2.6.jpg" alt="drawing" width="300"/> | <img src="inputs/hawaii.jpg" alt="drawing" width="300"/> | <img src="inputs/composition7.jpg" alt="drawing" width="300"/>
+<img src="outputs/hawaii2_wave_w600_i200_lr1.0_alpha1_beta4_nr0.1_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time2.2.jpg" alt="drawing" width="300"/> | <img src="inputs/hawaii2.jpg" alt="drawing" width="300"/> | <img src="inputs/wave.jpg" alt="drawing" width="300"/>
 <img src="outputs/final/csjl_starry_night_w300_i70_lr1.0_alpha1_beta10_nr0.6_lbfgs_avg_ps2_sllw0.2_snl5_cln4_time0.2.jpg" alt="drawing" width="300"/> | <img src="inputs/csjl.jpeg" alt="drawing" width="300"/> | <img src="inputs/starry_night.jpg" alt="drawing" width="300"/>
 
 Other results replicating the paper
